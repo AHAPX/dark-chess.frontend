@@ -1,13 +1,13 @@
 <ul ng-switch="logged" class="nav navbar-nav navbar-right">
     <li ng-switch-when="false">
-        <form class="navbar-form" name="form" ng-submit="login()" novalidate ng-disable="block">
+        <form class="navbar-form" name="form" ng-submit="login()" ng-if="!block">
             <div class="form-group">
-                <input class="form-control" type="text" placeholder="username" ng-model="model.username">
+                <input class="form-control" type="text" placeholder="username" ng-model="model.username" required>
             </div>
             <div class="form-group">
-                <input class="form-control" type="password" placeholder="password" ng-model="model.password">
+                <input class="form-control" type="password" placeholder="password" ng-model="model.password" required>
             </div>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">
                 <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Sign in
             </button>
             <a class="btn btn-success" href="#/register">
