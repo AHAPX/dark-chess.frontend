@@ -1,0 +1,22 @@
+<div class="form-auth">
+    <form class="well" name="form" ng-submit="submit()" novalidate ng-if="!block">
+        <div class="alert alert-danger" ng-show="error">
+            <span>{{ error }}</span>
+        </div>
+        <div class="form-group">
+            <label for="password">password</label>
+            <input class="form-control" type="password" id="password" minlength=1 ng-model="model.password" required>
+            <small ng-hide="model.password.length > 7">must be no less than 8 symbols</small>
+        </div>
+        <div class="form-group">
+            <label for="password2">confirm password</label>
+            <input class="form-control" type="password" id="password2" minlength=1 ng-model="model.password2" required>
+            <small ng-hide="model.password == model.password2">must be match password</small>
+        </div>
+        <button class="btn btn-primary" type="submit" ng-disabled="form.$invalid">Change password</button>
+    </form>
+    <div class="alert alert-danger" ng-if="not_found">
+        <span>token not found, try to <a href="#/reset">reset password</a> again</span>
+    </div>
+</div>
+
