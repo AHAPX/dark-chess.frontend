@@ -23,4 +23,4 @@ angular
                     controller: 'RecoverCtrl',
                 });
         }
-    ])
+    ]);

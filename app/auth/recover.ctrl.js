@@ -7,10 +7,10 @@ angular.module('darkChess.auth')
         '$scope',
         '$location',
         '$routeParams',
-        'api',
+        'apiService',
     ];
 
-    function recoverController($scope, $location, $routeParams, api) {
+    function recoverController($scope, $location, $routeParams, apiService) {
 
         $scope.model = {
             password: '',
@@ -21,7 +21,7 @@ angular.module('darkChess.auth')
         $scope.not_found = false;
         $scope.error = null;
 
-        api.auth.recoverable($routeParams.token)
+        apiService.auth.recoverable($routeParams.token)
             .then(function(data) {
                 $scope.block = false;
             }, function() {
@@ -29,7 +29,7 @@ angular.module('darkChess.auth')
             });
 
         $scope.submit = function() {
-            api.auth.recover($routeParams.token, $scope.model.password)
+            apiService.auth.recover($routeParams.token, $scope.model.password)
                 .then(function() {
                     $location.path('home');
                 }, function(error) {

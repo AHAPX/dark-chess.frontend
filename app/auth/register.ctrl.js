@@ -1,23 +1,26 @@
 'use strict';
 
 angular.module('darkChess.auth')
-    .controller('ResetCtrl', resetController);
+    .controller('RegisterCtrl', registerController);
 
-    resetController.$inject = [
+    registerController.$inject = [
         '$scope',
         '$location',
-        'api',
+        'apiService',
     ];
 
-    function resetController($scope, $location, api) {
+    function registerController($scope, $location, apiService) {
         $scope.model = {
+            username: '',
             email: '',
+            password: '',
+            password2: '',
         };
 
         $scope.error = null;
 
         $scope.submit = function() {
-            api.auth.reset($scope.model.email)
+            apiService.auth.register($scope.model.username, $scope.model.email, $scope.model.password)
                 .then(function() {
                     $location.path('home');
                 }, function(error) {

@@ -5,10 +5,10 @@ angular.module('darkChess.auth')
 
     accountDirective.$inject = [
         '$rootScope',
-        'api',
+        'apiService',
     ];
 
-    function accountDirective($rootScope, api) {
+    function accountDirective($rootScope, apiService) {
 
         function linker(scope, elem, attrs) {
             scope.logged = false;
@@ -35,7 +35,7 @@ angular.module('darkChess.auth')
             };
 
             scope.login = function() {
-                api.auth.login(scope.model.username, scope.model.password)
+                apiService.auth.login(scope.model.username, scope.model.password)
                     .then(function() {
                         loggedIn({ username: scope.model.username });
                     }, function(error) {
@@ -56,14 +56,14 @@ angular.module('darkChess.auth')
             };
 
             scope.logout = function() {
-                api.auth.logout()
+                apiService.auth.logout()
                     .then(function() {
                         loggedOut();
                         init();
                     });
             };
 
-            api.auth.authorized()
+            apiService.auth.authorized()
                 .then(function(user) {
                     if (user) {
                         loggedIn(user);

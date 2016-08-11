@@ -4,6 +4,7 @@
 angular.module('darkChess', [
     'ngRoute',
     'darkChess.auth',
+    'darkChess.game',
 ]).
 config([
     '$locationProvider',
@@ -11,8 +12,8 @@ config([
     function($locationProvider, $routeProvider) {
         $routeProvider
             .when('/home', {
-                templateUrl: 'app/auth/register.html',
-                controller: 'RegisterCtrl',
+                templateUrl: 'app/home.html',
+                controller: 'HomeCtrl',
             })
             .otherwise({
                 redirectTo: '/home',
