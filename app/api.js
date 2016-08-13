@@ -102,7 +102,7 @@ angular.module('darkChess')
                     moves: function() {
                         return GET(url + '/moves');
                     },
-                    doMove: function(move) {
+                    move: function(move) {
                         return POST(url + '/move', { move: move });
                     },
                     draw: function() {

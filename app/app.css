@@ -34,3 +34,72 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.board-1 {
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+.board-label-x {
+    width: 50px;
+    height: 10px;
+    text-align: center;
+}
+
+.board-label-y {
+    width: 20px;
+    height: 50px;
+    text-align: center;
+}
+
+.board-cell {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    display: table;
+}
+
+.board-cell-white {
+    background-color: #ffe8c6;
+}
+
+.board-cell-black {
+    background-color: #866f4d;
+}
+
+.board-cell-white-hidden {
+    background-color: #a0a0a0;
+}
+
+.board-cell-black-hidden {
+    background-color: #868686;
+}
+
+.board-cell-selected {
+    background-color: #69c389;
+}
+
+.board-cell-movable {
+    background-color: #8bffb5;
+}
+
+.board-figure {
+    width: 100%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.board-figure-white {
+    color: white;
+    text-shadow: -1px 0px black, 1px 0px black, 0px -1px black, 0px 1px black;
+}
+
+.board-figure-black {
+    color: black;
+    text-shadow: -1px 0px white, 1px 0px white, 0px -1px white, 0px 1px white;
+}
+
+.board-figure-black-rook {
+    background-image: url('/static/images/figures/black/rook.png');
+}

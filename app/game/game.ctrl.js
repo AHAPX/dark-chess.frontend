@@ -6,8 +6,20 @@ angular.module('darkChess.auth')
     gameController.$inject = [
         '$scope',
         '$location',
-        'apiService',
+        '$routeParams',
+        'gameService',
     ];
 
-    function gameController($scope) {
+    function gameController($scope, $location, $routeParams, gameService) {
+        $scope.game = null;
+        $scope.figures = [];
+        $scope.cells = {};
+
+        if ($routeParams.gameId != '0') {
+            gameService.getGame($routeParams.gameId)
+                .then(function(game) {
+                    $scope.game = game;
+                    $scope.gameId = $routeParams.gameId;
+                });
+        }
     };

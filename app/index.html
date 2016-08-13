@@ -14,7 +14,20 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css">
     <link rel="stylesheet" href="app/app.css">
+
     <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.min.js"></script>
+
+    <script type='text/javascript'>
+        $(document).ready(function() {
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+        });
+    </script>
 </head>
 <body>
     <div class="navbar navbar-default navbar-static-top">
@@ -45,14 +58,9 @@
     <!-- In production use:
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
     -->
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="bower_components/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js"></script>
-
     <script src="app/app.js"></script>
     <script src="app/api.js"></script>
+    <script src="app/ws.js"></script>
     <script src="app/home.ctrl.js"></script>
 
     <script src="app/auth/auth.js"></script>
@@ -64,5 +72,10 @@
 
     <script src="app/game/game.js"></script>
     <script src="app/game/game.ctrl.js"></script>
+    <script src="app/game/new-game.js"></script>
+    <script src="app/game/board/board.js"></script>
+    <script src="app/game/board/game-board.js"></script>
+    <script src="app/game/board/board-cell.js"></script>
+    <script src="app/game/board/board-figure.js"></script>
 </body>
 </html>
