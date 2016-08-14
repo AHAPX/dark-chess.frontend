@@ -1,0 +1,27 @@
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li ng-repeat="type in types" ng-class="{'active': model.type == type.name}">
+            <a href ng-click="setType(type)">{{ type.name }}</a>
+        </li>
+    </ul>
+    <br>
+    <div ng-repeat="type in types" ng-show="model.type == type.name">
+        <div class="alert alert-info" role="alert">
+            {{ type.description }}
+        </div>
+        <div ng-if="type.periods.length > 0">
+            <ul class="nav nav-pills nav-stacked">
+                <li ng-repeat="period in type.periods"
+                    ng-class="{ 'active': model.period == period.name }">
+                    <a ng-click="setPeriod(period)">
+                        {{ period.title }}
+                    </a>
+                </li>
+            </ul>
+            <br>
+        </div>
+        <button class="btn btn-success btn-lg btn-block" ng-click="startGame()" ng-disabled="block">
+            start game
+        </button>
+    </div>
+</div>

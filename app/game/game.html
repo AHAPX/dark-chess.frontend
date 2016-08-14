@@ -1,8 +1,44 @@
-<div>
-    <div class="col-md-12">
-        <new-game />
+<div class="row">
+    <div class="col-md-3">
+        <games />
     </div>
-    <div class="row">
-        <game-board ng-if="gameId" game-id="gameId" />
+    <div class="col-md-5">
+        <div ng-if="game.started_at">
+            <div ng-if="game.ended_at" class="game-label alert" ng-class="{
+                    'alert-success': end_reason == 'won',
+                    'alert-danger': end_reason == 'lost',
+                    'alert-warning': end_reason == 'draw',
+                }">
+                <h2 ng-if="end_reason == 'won'">
+                    game is over - you won
+                </h2>
+                <h2 ng-if="end_reason == 'lost'">
+                    game is over - you lost
+                </h2>
+                <h2 ng-if="end_reason == 'draw'">
+                    game is over - draw
+                </h2>
+            </div>
+            <game-board ng-if="gameId" game="game" game-id="gameId" />
+        </div>
+        <div ng-if="!game.started_at">
+            <div class="game-label alert alert-info">
+                <h3>waiting an opponent</h3>
+            </div>
+            <game-board ng-if="gameId" game="null" game-id="gameId" />
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="panel panel-default" ng-if="game.started_at && !game.ended_at">
+            <div class="panel-body">
+                <button class="btn btn-warning btn-block" ng-click="draw()">
+                    draw
+                </button>
+                <br>
+                <button class="btn btn-danger btn-block" ng-click="resign()">
+                    resign
+                </button>
+            </div>
+        </div>
     </div>
 </div>

@@ -16,13 +16,13 @@
         </form>
     </li>
     <li ng-switch-when="true" class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <a href class="dropdown-toggle" data-toggle="dropdown">
             <span class="glyphicon glyphicon-user"></span>
             <strong>{{ user.username }}</strong> <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
             <li>
-                <a href=# ng-click="logout()">
+                <a href ng-click="logout()">
                 <span class="glyphicon glyphicon-log-out"></span> Logout</a>
             </li>
         </ul>

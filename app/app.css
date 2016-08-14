@@ -35,12 +35,6 @@
     margin-right: auto;
 }
 
-.board-1 {
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
-}
-
 .board-label-x {
     width: 50px;
     height: 10px;
@@ -90,16 +84,36 @@
     vertical-align: middle;
 }
 
-.board-figure-white {
-    color: white;
-    text-shadow: -1px 0px black, 1px 0px black, 0px -1px black, 0px 1px black;
-}
-
-.board-figure-black {
+.pill-default>a {
     color: black;
-    text-shadow: -1px 0px white, 1px 0px white, 0px -1px white, 0px 1px white;
+    background-color: white;
 }
 
-.board-figure-black-rook {
-    background-image: url('/static/images/figures/black/rook.png');
+.pill-info>a {
+    color: white;
+    background-color: #5bc0de;
+}
+
+.pill-success>a {
+    color: white;
+    background-color: #5cb85c;
+}
+
+.pill-warning>a {
+    color: white;
+    background-color: #f0ad4e;
+}
+
+.pill-danger>a {
+    color: white;
+    background-color: #d9534f;
+}
+
+.game-player {
+    width: 430px;
+}
+
+.game-label {
+    text-align: center;
+    width: 430px;
 }

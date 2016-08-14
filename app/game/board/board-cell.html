@@ -1,0 +1,4 @@
+<div class="board-cell {{colorClass}}" ng-click="click()"
+    ng-class="{'board-cell-selected': selected, 'board-cell-movable': movable}">
+    <board-figure ng-if="cell.kind && cell.color" color="cell.color" kind="cell.kind" />
+</div>

@@ -11,10 +11,10 @@ angular.module('darkChess.auth')
     function accountDirective($rootScope, apiService) {
 
         function linker(scope, elem, attrs) {
-            scope.logged = false;
             scope.block = true;
 
             function init() {
+                loggedOut();
                 scope.model = {
                     username: '',
                     password: '',
@@ -29,7 +29,7 @@ angular.module('darkChess.auth')
             }
 
             function loggedOut() {
-                $rootScope.user = null;
+                $rootScope.user = { username: 'anonymous' };
                 scope.logged = false;
                 $rootScope.$broadcast('logged_out');
             };
@@ -58,7 +58,6 @@ angular.module('darkChess.auth')
             scope.logout = function() {
                 apiService.auth.logout()
                     .then(function() {
-                        loggedOut();
                         init();
                     });
             };

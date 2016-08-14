@@ -1,0 +1,53 @@
+<div>
+    <new-game />
+    <hr>
+    <div class="panel panel-default" ng-hide="games.wait|isEmpty">
+        <div class="panel-heading">not started games</div>
+        <ul class="nav nav-pills nav-stacked">
+            <li ng-repeat="(id, game) in games.wait" ng-class="{'active': id == gameId}">
+                <a href="#/game/{{id}}">
+                    waiting another player
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel panel-info" ng-hide="games.actives|isEmpty">
+        <div class="panel-heading">active games</div>
+        <ul class="nav nav-pills nav-stacked">
+            <li ng-repeat="(id, game) in games.actives" ng-class="{'active': id == gameId}">
+                <a href="#/game/{{id}}">
+                    {{ game.opponent }}
+                    <span class="pull-right">
+                        <span ng-show="yourTurn(game)">
+                            <time-left ng-show="game.time_left" ng-model="game.time_left" />
+                            <span class="glyphicon glyphicon-pawn" aria-hidden="true"></span>
+                        </span>
+                        <span ng-show="game.enemy_time_left && !yourTurn(game)">
+                            <time-left ng-model="game.enemy_time_left" />
+                        </span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">ended games</div>
+        <ul class="nav nav-pills nav-stacked">
+            <li ng-repeat="(id, game) in games.ended" ng-class="{'active': id == gameId}">
+                <a href="#/game/{{id}}">
+                    {{ game.opponent }}
+                    <span class="label pull-right" ng-class="{
+                        'label-success': game.result == 'you won',
+                        'label-danger': game.result == 'you lost',
+                        'label-warning': game.result == 'draw',
+                    }">
+                        {{ game.result }}
+                    </span>
+                </a>
+            </li>
+        </ul>
+        <button class="btn btn-default btn-block" ng-click="loadEnded()" ng-disabled="ended_block">
+            <span class="glyphicon glyphicon-chevron-down"></span>
+        </button>
+    </div>
+</div>
