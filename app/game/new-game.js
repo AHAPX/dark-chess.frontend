@@ -45,9 +45,9 @@ angular.module('darkChess.game')
                 scope.selected_periods[scope.model.type] = period;
             };
 
-            scope.startGame = function() {
+            scope.startGame = function(invite) {
                 scope.block = true;
-                gameService.start(scope.model.type, scope.model.period)
+                gameService.start(scope.model.type, scope.model.period, invite)
                     .then(function(data) {
                         scope.block = false;
                         $location.path('game/' + data.game);

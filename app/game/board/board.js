@@ -19,6 +19,9 @@ angular.module('darkChess.game')
         var selected;
         var subscriber;
 
+        self.figures = [];
+        self.cells = {};
+
         function loadFigure(figure) {
             return figure;
         }

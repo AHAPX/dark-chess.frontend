@@ -13,7 +13,6 @@ angular.module('darkChess.auth')
     ];
 
     function gameController($scope, $location, $timeout, $routeParams, gameService, boardService) {
-        $scope.gameId = $routeParams.gameId;
 
         function loadGame() {
             return boardService.getGame($scope.gameId)
@@ -84,6 +83,7 @@ angular.module('darkChess.auth')
         };
 
         if ($routeParams.gameId != '0') {
+            $scope.gameId = $routeParams.gameId;
             loadGame()
                 .then(function() {
                     $scope.$on($scope.gameId + '/1', function(event, signal) {

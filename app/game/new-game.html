@@ -20,8 +20,21 @@
             </ul>
             <br>
         </div>
-        <button class="btn btn-success btn-lg btn-block" ng-click="startGame()" ng-disabled="block">
-            start game
-        </button>
+        <div class="text-center">
+            <div class="btn-group">
+                <button class="btn btn-success btn-lg" ng-click="startGame()"
+                    ng-disabled="block">
+                    start game
+                </button>
+                <button type="button" class="btn btn-success btn-lg dropdown-toggle"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href ng-click="startGame(true)">by invitation</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>

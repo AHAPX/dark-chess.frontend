@@ -2,7 +2,7 @@
     <div class="col-md-3">
         <games />
     </div>
-    <div class="col-md-5">
+    <div class="col-md-5" ng-if="gameId && gameId != '0'">
         <div ng-if="game.started_at">
             <div ng-if="game.ended_at" class="game-label alert" ng-class="{
                     'alert-success': end_reason == 'won',
@@ -19,13 +19,21 @@
                     game is over - draw
                 </h2>
             </div>
-            <game-board ng-if="gameId" game="game" game-id="gameId" />
+            <game-board game="game" game-id="gameId" />
         </div>
         <div ng-if="!game.started_at">
             <div class="game-label alert alert-info">
-                <h3>waiting an opponent</h3>
+                <h3 ng-hide="game.invite">waiting an opponent</h3>
+                <div ng-show="game.invite">
+                    <h5>Send this url to your friend to invite him:<h5>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            https://api.dark-chess.com/#/game/invited/{{ game.invite }}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <game-board ng-if="gameId" game="null" game-id="gameId" />
+            <game-board game="null" game-id="gameId" />
         </div>
     </div>
     <div class="col-md-2">

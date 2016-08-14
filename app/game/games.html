@@ -6,7 +6,8 @@
         <ul class="nav nav-pills nav-stacked">
             <li ng-repeat="(id, game) in games.wait" ng-class="{'active': id == gameId}">
                 <a href="#/game/{{id}}">
-                    waiting another player
+                    {{ game.type }}
+                    <span class="pull-right" ng-show="game.limit">{{ game.limit|readableTime }}</span>
                 </a>
             </li>
         </ul>

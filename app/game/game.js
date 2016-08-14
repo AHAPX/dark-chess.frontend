@@ -9,6 +9,10 @@ angular
                 .when('/game/:gameId', {
                     templateUrl: 'app/game/game.html',
                     controller: 'GameCtrl',
+                })
+                .when('/game/invited/:gameId', {
+                    templateUrl: 'app/game/invited.html',
+                    controller: 'InvitedCtrl',
                 });
         }
     ])
@@ -58,8 +62,9 @@ angular
                 });
         };
 
-        self.start = function(type, period) {
-            return apiService.games.new(type, period)
+        self.start = function(type, period, invite) {
+            var method = invite ? apiService.games.invite : apiService.games.new;
+            return method(type, period)
                 .then(function(data) {
                     if (data.started_at) {
                         storage.actives.push(data.game);
@@ -235,6 +240,20 @@ angular
                     return;
                 }, function(error) {
                     showAlert('draw error', error);
+                });
+        };
+
+        self.invited = function(gameId) {
+            return apiService.games.invited(gameId)
+                .then(function(data) {
+                    if (data.started_at) {
+                        storage.actives.push(data.game);
+                    } else {
+                        storage.games.push(data.game);
+                    }
+                    $rootScope.$broadcast('new_game', data.game);
+                    self.socket.addTag(data.game);
+                    return data;
                 });
         };
 
