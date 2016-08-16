@@ -42,9 +42,13 @@ angular
             }
         }
 
-        function add(array, item) {
+        function add(array, item, begin) {
             if (array.indexOf(item) < 0) {
-                array.push(item);
+                if (begin) {
+                    array.unshift(item);
+                } else {
+                    array.push(item);
+                }
             }
         }
 
@@ -88,7 +92,7 @@ angular
                         };
                     }
                     if (data.ended_at) {
-                        add(storage.ended, gameId);
+                        add(storage.ended, gameId, true);
                         remove(storage.games, gameId);
                         remove(storage.actives, gameId);
                         return result;
@@ -120,6 +124,9 @@ angular
         function endGame(gameId, type, data) {
             delete self.games[gameId];
             self.socket.removeTag(gameId);
+            add(storage.ended, gameId, true);
+            remove(storage.games, gameId);
+            remove(storage.actives, gameId);
             broadcast(gameId, type, data);
         }
 
@@ -200,6 +207,8 @@ angular
             switch (event.signal) {
                 case socketService.signals.start:
                     self.games[gameId] = event.message;
+                    add(storage.actives, gameId);
+                    remove(storage.games, gameId);
                     broadcast(gameId, 'start', event.message);
                     break;
                 case socketService.signals.move:

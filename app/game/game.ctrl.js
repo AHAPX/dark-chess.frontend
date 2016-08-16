@@ -82,6 +82,12 @@ angular.module('darkChess.auth')
             });
         };
 
+        $scope.getInvitedUrl = function() {
+            if ($scope.game && $scope.game.invite) {
+                return 'https://api.dark-chess.com/#/game/invited/' + $scope.game.invite;
+            }
+        };
+
         if ($routeParams.gameId != '0') {
             $scope.gameId = $routeParams.gameId;
             loadGame()

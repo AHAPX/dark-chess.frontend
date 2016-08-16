@@ -4,13 +4,15 @@ angular
     .module('darkChess', [
         'ngRoute',
         'ngStorage',
+        'ngClipboard',
         'darkChess.auth',
         'darkChess.game',
     ])
     .config([
         '$locationProvider',
         '$routeProvider',
-        function($locationProvider, $routeProvider) {
+        'ngClipProvider',
+        function($locationProvider, $routeProvider, ngClipProvider) {
             $routeProvider
                 .when('/home', {
                     templateUrl: 'app/home.html',
@@ -19,6 +21,7 @@ angular
                 .otherwise({
                     redirectTo: '/home',
                 });
+            ngClipProvider.setPath('bower_components/zeroclipboard/dist/ZeroClipboard.swf');
         }
     ])
     .filter('isEmpty', function() {

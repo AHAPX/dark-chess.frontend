@@ -25,11 +25,14 @@
             <div class="game-label alert alert-info">
                 <h3 ng-hide="game.invite">waiting an opponent</h3>
                 <div ng-show="game.invite">
-                    <h5>Send this url to your friend to invite him:<h5>
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            https://api.dark-chess.com/#/game/invited/{{ game.invite }}
-                        </div>
+                    <h5>Send this url to your friend to invite:<h5>
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-value="getInvitedUrl()" readonly>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" clip-copy="getInvitedUrl()">
+                                <span class="glyphicon glyphicon-copy"><span>
+                            </button>
+                        </span>
                     </div>
                 </div>
             </div>
