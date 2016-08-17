@@ -56,9 +56,9 @@ angular.module('darkChess.game')
             }
         }
 
-        self.getGame = function(gameId) {
+        self.getGame = function(gameId, no_cache) {
             self.gameId = gameId;
-            return gameService.getGame(gameId)
+            return gameService.getGame(gameId, no_cache)
                 .then(function(game) {
                     if (!game) {
                         return $q.reject();

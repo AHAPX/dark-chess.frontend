@@ -14,8 +14,8 @@ angular.module('darkChess.auth')
 
     function gameController($scope, $location, $timeout, $routeParams, gameService, boardService) {
 
-        function loadGame() {
-            return boardService.getGame($scope.gameId)
+        function loadGame(no_cache) {
+            return boardService.getGame($scope.gameId, no_cache)
                 .then(function(game) {
                     $scope.game = game;
                     if (game.ended_at) {
@@ -87,6 +87,8 @@ angular.module('darkChess.auth')
                 return 'https://api.dark-chess.com/#/game/invited/' + $scope.game.invite;
             }
         };
+
+        $scope.$on('logged_out', function() { loadGame(true); });
 
         if ($routeParams.gameId != '0') {
             $scope.gameId = $routeParams.gameId;

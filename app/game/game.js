@@ -105,7 +105,7 @@ angular
                     self.socket.addTag(gameId);
                     return result;
                 }, function(error) {
-                    if (error.indexOf('not found')) {
+                    if (error.indexOf('not found') > 0) {
                         remove(storage.games, gameId);
                         remove(storage.actives, gameId);
                         remove(storage.ended, gameId);

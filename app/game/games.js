@@ -5,11 +5,12 @@ angular.module('darkChess.game')
 
     gamesDirective.$inject = [
         '$routeParams',
+        '$location',
         '$timeout',
         'gameService',
     ];
 
-    function gamesDirective($routeParams, $timeout, gameService) {
+    function gamesDirective($routeParams, $location, $timeout, gameService) {
 
         function linker(scope, elem, attrs) {
 
@@ -101,6 +102,9 @@ angular.module('darkChess.game')
                         }
                     });
             });
+
+            scope.$on('logged_in', updateAll);
+            scope.$on('logged_out', updateAll);
 
             scope.yourTurn = function(game) {
                 return game.color == game.next_turn;
