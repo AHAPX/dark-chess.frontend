@@ -8,15 +8,14 @@ angular.module('darkChess.game')
         '$location',
         '$timeout',
         'gameService',
+        'helpersService',
     ];
 
-    function gamesDirective($routeParams, $location, $timeout, gameService) {
+    function gamesDirective($routeParams, $location, $timeout, gameService, hs) {
 
         function linker(scope, elem, attrs) {
 
             scope.gameId = $routeParams.gameId;
-
-            var ended_skip = 0;
 
             function onGame(gameId, data) {
                 switch (data.type) {
@@ -24,9 +23,10 @@ angular.module('darkChess.game')
                         updateGame(gameId, data.game);
                         break;
                     case 'start':
-                        if (gameId in scope.games.wait && data.game) {
-                            scope.games.actives[gameId] = data.game;
-                            delete scope.games.wait[gameId];
+                        if (hs.isIn(scope.games.wait, gameId) && data.game) {
+                            hs.remove(scope.games.wait, gameId);
+                            hs.add(scope.games.actives, gameId);
+                            scope.games.games[gameId] = data.game;
                         }
                         break;
                     case 'end':
@@ -40,7 +40,7 @@ angular.module('darkChess.game')
             }
 
             function setResult(gameId) {
-                var game = scope.games.ended[gameId];
+                var game = scope.games.games[gameId];
                 if (!game.winner) {
                     game.result = 'draw';
                 } else if (game.winner == game.color) {
@@ -51,24 +51,22 @@ angular.module('darkChess.game')
             }
 
             function updateGame(gameId, game) {
+                scope.games.games[gameId] = game;
                 if (game.ended_at) {
-                    if (gameId in scope.games.actives) {
-                        delete scope.games.actives[gameId];
-                    }
-                    if (!(gameId in scope.games.ended)) {
-                        scope.games.ended[gameId] = game;
-                        setResult(gameId);
-                    }
+                    hs.remove(scope.games.actives, gameId);
+                    hs.add(scope.games.ended, gameId, true);
+                    setResult(gameId);
                 } else {
-                    scope.games.actives[gameId] = game;
+                    hs.add(scope.games.actives, gameId);
                 }
             }
 
             function updateAll() {
                 scope.games = {
-                    actives: {},
-                    wait: {},
-                    ended: {},
+                    actives: [],
+                    wait: [],
+                    ended: [],
+                    games: {},
                 };
 
                 gameService.getGames()
@@ -77,10 +75,14 @@ angular.module('darkChess.game')
                             if (!game || !game.game) {
                                 return;
                             }
-                            if (game.game.started_at) {
-                                scope.games.actives[game.id] = game.game;
+                            scope.games.games[game.id] = game.game;
+                            if (game.game.ended_at) {
+                                hs.add(scope.games.ended, game.id);
+                                setResult(game.id);
+                            } else if (game.game.started_at) {
+                                hs.add(scope.games.actives, game.id);
                             } else {
-                                scope.games.wait[game.id] = game.game;
+                                hs.add(scope.games.wait, game.id);
                             }
                             scope.$on(game.id, function(event, data) {
                                 onGame(game.id, data);
@@ -95,7 +97,8 @@ angular.module('darkChess.game')
                         if (game.started_at) {
                             updateGame(gameId, game);
                         } else {
-                            scope.games.wait[gameId] = null;
+                            hs.add(scope.games.wait, gameId);
+                            scope.games.games[gameId] = null;
                             scope.$on(gameId, function(event, data) {
                                 onGame(gameId, data);
                             });
@@ -103,27 +106,16 @@ angular.module('darkChess.game')
                     });
             });
 
-            scope.$on('logged_in', updateAll);
+            scope.$on('logged_in', function() {
+                gameService.getUserGames()
+                    .then(function() {
+                        updateAll();
+                    });
+            });
             scope.$on('logged_out', updateAll);
 
             scope.yourTurn = function(game) {
                 return game.color == game.next_turn;
-            };
-
-            scope.loadEnded = function() {
-                scope.ended_block = true;
-                gameService.getEnded(ended_skip)
-                    .then(function(games) {
-                        $.each(games, function(index, game) {
-                            if (!game || !game.game) {
-                                return;
-                            }
-                            scope.games.ended[game.id] = game.game;
-                            setResult(game.id);
-                        });
-                        ended_skip += games.length;
-                        scope.ended_block = false;
-                    });
             };
 
             updateAll();

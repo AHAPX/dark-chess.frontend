@@ -1,10 +1,11 @@
 <div>
     <new-game />
     <hr>
-    <div class="panel panel-default" ng-hide="games.wait|isEmpty">
+    <div class="panel panel-default" ng-show="games.wait.length > 0">
         <div class="panel-heading">not started games</div>
         <ul class="nav nav-pills nav-stacked">
-            <li ng-repeat="(id, game) in games.wait" ng-class="{'active': id == gameId}">
+            <li ng-repeat="id in games.wait" ng-class="{'active': id == gameId}"
+                ng-init="game = games.games[id]">
                 <a href="#/game/{{id}}">
                     {{ game.type }}
                     <span class="pull-right" ng-show="game.limit">{{ game.limit|readableTime }}</span>
@@ -12,10 +13,11 @@
             </li>
         </ul>
     </div>
-    <div class="panel panel-info" ng-hide="games.actives|isEmpty">
+    <div class="panel panel-info" ng-show="games.actives.length > 0">
         <div class="panel-heading">active games</div>
         <ul class="nav nav-pills nav-stacked">
-            <li ng-repeat="(id, game) in games.actives" ng-class="{'active': id == gameId}">
+            <li ng-repeat="id in games.actives" ng-class="{'active': id == gameId}"
+                ng-init="game = games.games[id]">
                 <a href="#/game/{{id}}">
                     {{ game.opponent }}
                     <span class="pull-right">
@@ -31,10 +33,11 @@
             </li>
         </ul>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-default" ng-show="games.ended.length > 0">
         <div class="panel-heading">ended games</div>
         <ul class="nav nav-pills nav-stacked">
-            <li ng-repeat="(id, game) in games.ended" ng-class="{'active': id == gameId}">
+            <li ng-repeat="id in games.ended" ng-class="{'active': id == gameId}"
+                ng-init="game = games.games[id]">
                 <a href="#/game/{{id}}">
                     {{ game.opponent }}
                     <span class="label pull-right" ng-class="{
@@ -47,8 +50,5 @@
                 </a>
             </li>
         </ul>
-        <button class="btn btn-default btn-block" ng-click="loadEnded()" ng-disabled="ended_block">
-            <span class="glyphicon glyphicon-chevron-down"></span>
-        </button>
     </div>
 </div>

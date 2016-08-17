@@ -90,8 +90,8 @@ angular.module('darkChess')
             invited: function(token) {
                 return GET('/v1/game/invite/' + token);
             },
-            active: function() {
-                return GET('/v1/game/active');
+            games: function() {
+                return GET('/v1/game/games');
             },
             game: function(token) {
                 var url = '/v1/game/' + token;

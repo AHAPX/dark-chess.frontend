@@ -24,33 +24,18 @@ angular
         '$rootScope',
         'apiService',
         'socketService',
+        'helpersService',
     ];
 
-    function gameService($q, $localStorage, $rootScope, apiService, socketService) {
+    function gameService($q, $localStorage, $rootScope, apiService, socketService, hs) {
         var self = this;
 
         var storage = $localStorage.$default({
             games: [],
             actives: [],
             ended: [],
+            ended_cache: {},
         });
-
-        function remove(array, item) {
-            var index = array.indexOf(item);
-            if (index > -1) {
-                array.splice(index, 1);
-            }
-        }
-
-        function add(array, item, begin) {
-            if (array.indexOf(item) < 0) {
-                if (begin) {
-                    array.unshift(item);
-                } else {
-                    array.push(item);
-                }
-            }
-        }
 
         self.types = null;
         self.games = {};
@@ -81,6 +66,16 @@ angular
                 });
         };
 
+        function toEnded(gameId, data) {
+            hs.add(storage.ended, gameId, true);
+            storage.ended_cache[gameId] = data;
+            hs.remove(storage.games, gameId);
+            hs.remove(storage.actives, gameId);
+            if (storage.ended.length > 10) {
+                delete storage.ended_cache[storage.ended.pop()];
+            }
+        }
+
         function loadGame(gameId, full) {
             return apiService.games.game(gameId).info()
                 .then(function(data) {
@@ -92,26 +87,34 @@ angular
                         };
                     }
                     if (data.ended_at) {
-                        add(storage.ended, gameId, true);
-                        remove(storage.games, gameId);
-                        remove(storage.actives, gameId);
+                        toEnded(gameId, data);
                         return result;
                     }
                     if (data.started_at) {
-                        add(storage.actives, gameId);
-                        remove(storage.games, gameId);
+                        hs.add(storage.actives, gameId);
+                        hs.remove(storage.games, gameId);
                         self.games[gameId] = data;
                     }
                     self.socket.addTag(gameId);
                     return result;
                 }, function(error) {
                     if (error.indexOf('not found') > 0) {
-                        remove(storage.games, gameId);
-                        remove(storage.actives, gameId);
-                        remove(storage.ended, gameId);
+                        hs.remove(storage.games, gameId);
+                        hs.remove(storage.actives, gameId);
+                        hs.remove(storage.ended, gameId);
                         return $q.reject();
                     }
                 });
+        }
+
+        function loadEnded(gameId) {
+            if (gameId in storage.ended_cache) {
+                return $q.resolve({
+                    id: gameId,
+                    game: storage.ended_cache[gameId],
+                });
+            }
+            return loadGame(gameId, true);
         }
 
         function broadcast(gameId, type, game) {
@@ -124,9 +127,7 @@ angular
         function endGame(gameId, type, data) {
             delete self.games[gameId];
             self.socket.removeTag(gameId);
-            add(storage.ended, gameId, true);
-            remove(storage.games, gameId);
-            remove(storage.actives, gameId);
+            toEnded(gameId, data);
             broadcast(gameId, type, data);
         }
 
@@ -153,6 +154,9 @@ angular
         };
 
         self.getGame = function(gameId, no_cache) {
+            if (gameId in storage.ended_cache) {
+                return $q.resolve(storage.ended_cache[gameId]);
+            }
             if (self.games[gameId] && !no_cache) {
                 return $q.resolve(self.games[gameId]);
             }
@@ -168,6 +172,9 @@ angular
             $.each(storage.games, function(index, gameId) {
                 promises.push(loadGame(gameId, true));
             });
+            $.each(storage.ended, function(index, gameId) {
+                promises.push(loadEnded(gameId));
+            });
             $q.all(promises)
                 .then(function(data) {
                     defer.resolve(data);
@@ -175,18 +182,17 @@ angular
             return defer.promise;
         };
 
-        self.getEnded = function(skip) {
-            var defer = $q.defer();
-            var promises = [];
-            var count = 5;
-            $.each(storage.ended.slice(skip, skip + count), function(index, gameId) {
-                promises.push(loadGame(gameId, true));
-            });
-            $q.all(promises)
+        self.getUserGames = function() {
+            return apiService.games.games()
                 .then(function(data) {
-                    defer.resolve(data);
+                    $.each(data.games.actives, function(index, gameId) {
+                        hs.add(storage.actives, gameId);
+                    });
+                    $.each(data.games.ended, function(index, gameId) {
+                        hs.add(storage.ended, gameId, true);
+                    });
+                    return;
                 });
-            return defer.promise;
         };
 
         self.doMove = function(gameId, move) {
@@ -207,8 +213,8 @@ angular
             switch (event.signal) {
                 case socketService.signals.start:
                     self.games[gameId] = event.message;
-                    add(storage.actives, gameId);
-                    remove(storage.games, gameId);
+                    hs.add(storage.actives, gameId);
+                    hs.remove(storage.games, gameId);
                     broadcast(gameId, 'start', event.message);
                     break;
                 case socketService.signals.move:

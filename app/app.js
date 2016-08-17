@@ -23,9 +23,4 @@ angular
                 });
             ngClipProvider.setPath('bower_components/zeroclipboard/dist/ZeroClipboard.swf');
         }
-    ])
-    .filter('isEmpty', function() {
-        return function(object) {
-            return angular.equals({}, object);
-        }
-    });
+    ]);
