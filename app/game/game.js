@@ -39,7 +39,14 @@ angular
 
         self.types = null;
         self.games = {};
-        self.socket = socketService.create();
+
+        function addTag(tag) {
+            $rootScope.$broadcast('socketAddTag', tag);
+        }
+
+        function removeTag(tag) {
+            $rootScope.$broadcast('socketRemoveTag', tag);
+        }
 
         self.getTypes = function(no_cache) {
             if (self.types && !no_cache) {
@@ -61,7 +68,7 @@ angular
                         storage.games.push(data.game);
                     }
                     $rootScope.$broadcast('new_game', data.game);
-                    self.socket.addTag(data.game);
+                    addTag(data.game);
                     return data;
                 });
         };
@@ -95,7 +102,7 @@ angular
                         hs.remove(storage.games, gameId);
                         self.games[gameId] = data;
                     }
-                    self.socket.addTag(gameId);
+                    addTag(gameId);
                     return result;
                 }, function(error) {
                     if (error.indexOf('not found') > 0) {
@@ -126,7 +133,7 @@ angular
 
         function endGame(gameId, type, data) {
             delete self.games[gameId];
-            self.socket.removeTag(gameId);
+            removeTag(gameId);
             toEnded(gameId, data);
             broadcast(gameId, type, data);
         }
@@ -205,7 +212,7 @@ angular
                 });
         };
 
-        self.socket.onEvent(function(event) {
+        $rootScope.$on('onSocket', function(_, event) {
             if (!event.tags || event.tags.length < 1) {
                 return;
             }
@@ -267,7 +274,7 @@ angular
                         storage.games.push(data.game);
                     }
                     $rootScope.$broadcast('new_game', data.game);
-                    self.socket.addTag(data.game);
+                    addTag(data.game);
                     return data;
                 });
         };

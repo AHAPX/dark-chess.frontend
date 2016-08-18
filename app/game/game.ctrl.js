@@ -10,13 +10,18 @@ angular.module('darkChess.auth')
         '$routeParams',
         'gameService',
         'boardService',
+        'socketService',
     ];
 
-    function gameController($scope, $location, $timeout, $routeParams, gameService, boardService) {
+    function gameController($scope, $location, $timeout, $routeParams, gameService,
+        boardService, socketService) {
 
         function loadGame(no_cache) {
             return boardService.getGame($scope.gameId, no_cache)
                 .then(function(game) {
+                    if ($scope.game && game && $scope.game.next_turn == game.next_turn) {
+                        return game;
+                    }
                     $scope.game = game;
                     if (game.ended_at) {
                         if (!game.winner) {
@@ -88,12 +93,34 @@ angular.module('darkChess.auth')
             }
         };
 
+        $scope.update = function() {
+            loadGame(true)
+                .then(function(game) {
+                    $scope.$broadcast($scope.gameId, {
+                        'type': 'update',
+                        'game': game,
+                    });
+                });
+            if (!$scope.isConnected) {
+                $timeout($scope.update, 3000);
+            }
+        };
+
+        function checkConnection() {
+            $scope.isConnected = socketService.alive;
+            if (socketService.alive == false) {
+                $scope.update();
+            }
+        }
+
         $scope.$on('logged_out', function() { loadGame(true); });
+        $scope.$on('socketAlive', checkConnection);
 
         if ($routeParams.gameId != '0') {
             $scope.gameId = $routeParams.gameId;
             loadGame()
                 .then(function() {
+                    checkConnection();
                     $scope.$on($scope.gameId + '/1', function(event, signal) {
                         switch (signal) {
                             case 'update':

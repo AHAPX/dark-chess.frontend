@@ -5,70 +5,102 @@ angular.module('darkChess')
 
     socketService.$inject = [
         '$rootScope',
+        '$timeout',
     ];
 
-    function socketService($rootScope) {
-        var self = this;
+    function socketService($rootScope, $timeout) {
+        var self = this,
+            queue = [],
+            tags = [];
 
-        self.create = function(_reconnect) {
+        var TIMEOUTS = {
+            ping: 5000,
+            pong: 3000,
+            reconnect: 1000,
+        };
+
+        self.alive = null;
+
+        function connect() {
             var ws = new WebSocket('wss://api.dark-chess.com/ws'),
-                reconnect = _reconnect || _reconnect != false,
                 ping_timeout,
-                queue = [],
-                tags = [];
+                wait_pong = false;
 
-            var proxy = {
-                onopen: null,
-                onclose: null,
-                onevent: null,
-                opened: function(onopen) {
-                    this.onopen = onopen;
-                    return this;
-                },
-                closed: function(onclose) {
-                    this.onclose = onclose;
-                    return this;
-                },
-                onEvent: function(onevent) {
-                    this.onevent = onevent;
-                    return this;
-                },
-                send: function(message, json) {
-                    var msg = message;
-                    if (json) {
-                        msg = angular.toJson(msg);
-                    }
-                    send(msg);
-                },
-                addTag: function(tag) {
-                    if (tags.indexOf(tag) < 0) {
-                        tags.push(tag);
-                        setTags();
-                    }
-                },
-                removeTag: function(tag) {
-                    var index = tags.indexOf(tag);
-                    if (index > -1) {
-                        tags.splice(index, 1);
-                        setTags();
-                    }
-                },
-            };
+            function send(message) {
+                send(angular.toJson(message));
+            }
+
+            function addTag(tag) {
+                if (tags.indexOf(tag) < 0) {
+                    tags.push(tag);
+                    setTags();
+                }
+            }
+
+            function removeTag(tag) {
+                var index = tags.indexOf(tag);
+                if (index > -1) {
+                    tags.splice(index, 1);
+                    setTags();
+                }
+            }
+
+            function checkPing() {
+                if (wait_pong && self.alive != false) {
+                    self.alive = false;
+                    $rootScope.$broadcast('socketAlive');
+                }
+            }
+
+            function ping() {
+                wait_pong = true;
+                send('ping');
+                $timeout(checkPing, TIMEOUTS.pong);
+                setPingTimeout();
+            }
+
+            function setPingTimeout() {
+                ping_timeout = $timeout(ping, TIMEOUTS.ping);
+            }
+
+            function clearPingTimeout() {
+                $timeout.cancel(ping_timeout);
+            }
+
+            function send(msg) {
+                if (ws.readyState == 1) {
+                    ws.send(msg);
+                    return true;
+                }
+                if (msg != 'ping') {
+                    queue.push(msg);
+                }
+            }
+
+            function setTags() {
+                send(angular.toJson({ 'tags': tags }));
+            }
 
             ws.onmessage = function(msg) {
                 if (msg.data == 'ping') {
                     return send('pong');
                 }
                 if (msg.data == 'pong') {
+                    wait_pong = false;
+                    if (self.alive != true) {
+                        self.alive = true;
+                        $rootScope.$broadcast('socketAlive');
+                    }
                     return;
                 }
-                if (proxy.onevent && msg && msg.data) {
-                    proxy.onevent(angular.fromJson(msg.data));
-                }
-                updatePingTimeout();
+                $rootScope.$broadcast('onSocket', angular.fromJson(msg.data));
             };
 
             ws.onopen = function(event) {
+                ping();
+                if (tags.length > 0) {
+                    setTags();
+                }
                 while (queue.length > 0) {
                     if (!send(queue.shift())) {
                         break;
@@ -78,43 +110,17 @@ angular.module('darkChess')
             };
 
             ws.onclose = function(event) {
-                if (reconnect) {
-                    clearPingTimeout();
-                    setTimeout(function() { self.create(tags); }, 50000);
-                }
+                clearPingTimeout();
+                $timeout(connect, TIMEOUTS.reconnect);
             };
 
-            function ping() {
-                send('ping');
-                setPingTimeout();
-            }
+            $rootScope.$on('socketAddTag', function(event, tag) {
+                addTag(tag);
+            });
 
-            function setPingTimeout() {
-                ping_timeout = setTimeout(ping, 50000);
-            }
-
-            function clearPingTimeout() {
-                clearTimeout(ping_timeout);
-            }
-
-            function updatePingTimeout() {
-                clearPingTimeout();
-                setPingTimeout();
-            }
-
-            function send(msg) {
-                if (ws.readyState == 1) {
-                    ws.send(msg);
-                    return true;
-                }
-                queue.push(msg);
-            }
-
-            function setTags() {
-                send(angular.toJson({ 'tags': tags }));
-            }
-
-            return proxy;
+            $rootScope.$on('socketRemoveTag', function(event, tag) {
+                removeTag(tag);
+            });
         };
 
         self.signals = {
@@ -126,6 +132,8 @@ angular.module('darkChess')
             lose: 0x0012,
             draw: 0x0013,
             draw_request: 0x0021,
-        }
+        };
+
+        connect();
     };
 

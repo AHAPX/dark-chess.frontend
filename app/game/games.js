@@ -131,4 +131,3 @@ angular.module('darkChess.game')
             scope: false,
         };
     }
-

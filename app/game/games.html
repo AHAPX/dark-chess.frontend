@@ -4,11 +4,12 @@
     <div class="panel panel-default" ng-show="games.wait.length > 0">
         <div class="panel-heading">not started games</div>
         <ul class="nav nav-pills nav-stacked">
-            <li ng-repeat="id in games.wait" ng-class="{'active': id == gameId}"
-                ng-init="game = games.games[id]">
+            <li ng-repeat="id in games.wait" ng-class="{'active': id == gameId}">
                 <a href="#/game/{{id}}">
-                    {{ game.type }}
-                    <span class="pull-right" ng-show="game.limit">{{ game.limit|readableTime }}</span>
+                    {{ games.games[id].type }}
+                    <span class="pull-right" ng-show="games.games[id].limit">
+                        {{ games.games[id].limit|readableTime }}
+                    </span>
                 </a>
             </li>
         </ul>
@@ -16,17 +17,16 @@
     <div class="panel panel-info" ng-show="games.actives.length > 0">
         <div class="panel-heading">active games</div>
         <ul class="nav nav-pills nav-stacked">
-            <li ng-repeat="id in games.actives" ng-class="{'active': id == gameId}"
-                ng-init="game = games.games[id]">
+            <li ng-repeat="id in games.actives" ng-class="{'active': id == gameId}">
                 <a href="#/game/{{id}}">
-                    {{ game.opponent }}
+                    {{ games.games[id].opponent }}
                     <span class="pull-right">
-                        <span ng-show="userTurn(game)">
-                            <time-left ng-show="game.time_left" ng-model="game.time_left" />
+                        <span ng-show="userTurn(games.games[id])">
+                            <time-left ng-show="games.games[id].time_left" ng-model="games.games[id].time_left" />
                             <span class="glyphicon glyphicon-pawn" aria-hidden="true"></span>
                         </span>
-                        <span ng-show="game.enemy_time_left && !userTurn(game)">
-                            <time-left ng-model="game.enemy_time_left" />
+                        <span ng-show="games.games[id].enemy_time_left && !userTurn(games.games[id])">
+                            <time-left ng-model="games.games[id].enemy_time_left" />
                         </span>
                     </span>
                 </a>
@@ -36,16 +36,15 @@
     <div class="panel panel-default" ng-show="games.ended.length > 0">
         <div class="panel-heading">ended games</div>
         <ul class="nav nav-pills nav-stacked">
-            <li ng-repeat="id in games.ended" ng-class="{'active': id == gameId}"
-                ng-init="game = games.games[id]">
+            <li ng-repeat="id in games.ended" ng-class="{'active': id == gameId}">
                 <a href="#/game/{{id}}">
-                    {{ game.opponent }}
+                    {{ games.games[id].opponent }}
                     <span class="label pull-right" ng-class="{
-                        'label-success': game.result == 'you won',
-                        'label-danger': game.result == 'you lost',
-                        'label-warning': game.result == 'draw',
+                        'label-success': games.games[id].result == 'you won',
+                        'label-danger': games.games[id].result == 'you lost',
+                        'label-warning': games.games[id].result == 'draw',
                     }">
-                        {{ game.result }}
+                        {{ games.games[id].result }}
                     </span>
                 </a>
             </li>

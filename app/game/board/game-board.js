@@ -33,6 +33,13 @@ angular.module('darkChess.game')
                 }
             });
 
+            scope.yourTurn = function() {
+                if (!scope.game) {
+                    return false;
+                }
+                return scope.game.color == scope.game.next_turn;
+            };
+
             boardService.reset();
             updateUser();
         }
