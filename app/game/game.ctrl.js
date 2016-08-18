@@ -44,7 +44,7 @@ angular.module('darkChess.auth')
         }
 
         $scope.yourTurn = function() {
-            if (!scope.game) {
+            if (!$scope.game) {
                 return false;
             }
             return $scope.game.color == $scope.game.next_turn;

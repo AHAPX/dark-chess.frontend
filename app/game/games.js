@@ -114,7 +114,10 @@ angular.module('darkChess.game')
             });
             scope.$on('logged_out', updateAll);
 
-            scope.yourTurn = function(game) {
+            scope.userTurn = function(game) {
+                if (!game) {
+                    return;
+                }
                 return game.color == game.next_turn;
             };
 

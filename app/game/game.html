@@ -39,8 +39,8 @@
             <game-board game="null" game-id="gameId" />
         </div>
     </div>
-    <div class="col-md-2">
-        <div class="panel panel-default" ng-if="game.started_at && !game.ended_at">
+    <div class="col-md-2" ng-if="game.started_at && !game.ended_at">
+        <div class="panel panel-default">
             <div class="panel-body">
                 <button class="btn btn-warning btn-block" ng-click="draw()">
                     draw
@@ -51,5 +51,11 @@
                 </button>
             </div>
         </div>
+        <h3 ng-hide="yourTurn()">
+            <span class="label label-default">opponent's turn</span>
+        </h3>
+        <h3 ng-show="yourTurn()">
+            <span class="label label-warning">your turn</span>
+        </h3>
     </div>
 </div>
