@@ -51,26 +51,6 @@
         </div>
     </div>
     <div class="col-md-2">
-        <div class="panel">
-            <h4>
-                <span class="label" ng-class="{
-                    'label-danger': !isConnected,
-                    'label-success': isConnected,
-                    }">
-                    <span ng-show="isConnected">
-                        <span class="glyphicon glyphicon-ok-sign"></span>
-                        connected
-                    </span>
-                    <span ng-hide="isConnected">
-                        <span class="glyphicon glyphicon-remove-sign"></span>
-                        not connected
-                    </span>
-                </span>
-                <button class="btn btn-xs btn-default" ng-hide="isConnected" ng-click="update()">
-                    <span class="glyphicon glyphicon-refresh"></span>
-                </button>
-            </h4>
-        </div>
         <div class="panel panel-default" ng-if="game.started_at && !game.ended_at">
             <div class="panel-body">
                 <button class="btn btn-warning btn-block" ng-click="draw()">
@@ -82,7 +62,7 @@
                 </button>
             </div>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-default" ng-if="game.started_at">
             <div class="panel-body">
                 <div>
                     <img ng-repeat="figure in game.board.cuts|filter:{ color: 'white' }"

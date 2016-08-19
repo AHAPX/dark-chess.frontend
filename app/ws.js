@@ -16,7 +16,7 @@ angular.module('darkChess')
         var TIMEOUTS = {
             ping: 5000,
             pong: 3000,
-            reconnect: 1000,
+            reconnect: 3000,
         };
 
         self.alive = null;

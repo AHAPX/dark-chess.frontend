@@ -93,7 +93,7 @@ angular.module('darkChess.auth')
             }
         };
 
-        $scope.update = function() {
+        function update() {
             loadGame(true)
                 .then(function(game) {
                     $scope.$broadcast($scope.gameId, {
@@ -101,15 +101,14 @@ angular.module('darkChess.auth')
                         'game': game,
                     });
                 });
-            if (!$scope.isConnected) {
-                $timeout($scope.update, 3000);
+            if (!socketService.alive) {
+                $timeout(update, 3000);
             }
         };
 
         function checkConnection() {
-            $scope.isConnected = socketService.alive;
-            if (socketService.alive == false) {
-                $scope.update();
+            if (!socketService.alive) {
+                update();
             }
         }
 
