@@ -53,9 +53,20 @@
     <div class="col-md-2">
         <div class="panel panel-default" ng-if="game.started_at && !game.ended_at">
             <div class="panel-body">
-                <button class="btn btn-warning btn-block" ng-click="draw()">
+                <button class="btn btn-warning btn-block" ng-if="!isDraw" ng-click="draw()">
                     draw
                 </button>
+                <div ng-if="isDraw" class="alert alert-warning">
+                    accept a draw?
+                    <div>
+                        <button class="btn btn-success" ng-click="drawAccept()">
+                            <span class="glyphicon glyphicon-ok-sign"></span>
+                        </button>
+                        <button class="btn btn-default" ng-click="drawRefuse()">
+                            <span class="glyphicon glyphicon-remove-sign"></span>
+                        </button>
+                    </div>
+                </div>
                 <br>
                 <button class="btn btn-danger btn-block" ng-click="resign()">
                     resign

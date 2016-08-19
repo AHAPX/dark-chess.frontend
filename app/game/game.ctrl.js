@@ -112,11 +112,23 @@ angular.module('darkChess.auth')
             }
         }
 
+        $scope.drawAccept = function() {
+            gameService.draw($scope.gameId);
+        };
+
+        $scope.drawRefuse = function() {
+            gameService.drawRefuse($scope.gameId)
+                .then(function() {
+                    $scope.isDraw = false;
+                });
+        };
+
         $scope.$on('logged_out', function() { loadGame(true); });
         $scope.$on('socketAlive', checkConnection);
 
         if ($routeParams.gameId != '0') {
             $scope.gameId = $routeParams.gameId;
+            $scope.isDraw = false;
             loadGame()
                 .then(function() {
                     checkConnection();
@@ -124,6 +136,9 @@ angular.module('darkChess.auth')
                         switch (signal) {
                             case 'update':
                                 loadGame();
+                                break;
+                            case 'draw_request':
+                                $scope.isDraw = true;
                                 break;
                         }
                     });

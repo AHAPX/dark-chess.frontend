@@ -265,6 +265,15 @@ angular
                 });
         };
 
+        self.drawRefuse = function(gameId) {
+            return apiService.games.game(gameId).drawRefuse()
+                .then(function() {
+                    return;
+                }, function(error) {
+                    showAlert('draw error', error);
+                });
+        };
+
         self.invited = function(gameId) {
             return apiService.games.invited(gameId)
                 .then(function(data) {

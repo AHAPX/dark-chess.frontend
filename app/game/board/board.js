@@ -53,6 +53,9 @@ angular.module('darkChess.game')
                     loadGame(data.game);
                     $rootScope.$broadcast(self.gameId + '/1', 'update');
                     break;
+                case 'draw_request':
+                    $rootScope.$broadcast(self.gameId + '/1', 'draw_request');
+                    break;
             }
         }
 
