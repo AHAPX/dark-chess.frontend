@@ -56,7 +56,7 @@ angular.module('darkChess.game')
                     hs.remove(scope.games.actives, gameId);
                     hs.add(scope.games.ended, gameId, true);
                     setResult(gameId);
-                } else {
+                } else if (game.started_at) {
                     hs.add(scope.games.actives, gameId);
                 }
             }
