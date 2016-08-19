@@ -19,6 +19,17 @@
                     game is over - draw
                 </h2>
             </div>
+            <div ng-if="!game.ended_at" class="game-label alert" ng-class="{
+                    'alert-default': !yourTurn(),
+                    'alert-success': yourTurn(),
+                }">
+                <h3 ng-hide="yourTurn()">
+                    opponent's turn
+                </h3>
+                <h3 ng-show="yourTurn()">
+                    your turn
+                </h3>
+            </div>
             <game-board game="game" game-id="gameId" />
         </div>
         <div ng-if="!game.started_at">
@@ -60,7 +71,7 @@
                 </button>
             </h4>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-default" ng-if="game.started_at && !game.ended_at">
             <div class="panel-body">
                 <button class="btn btn-warning btn-block" ng-click="draw()">
                     draw
@@ -71,11 +82,20 @@
                 </button>
             </div>
         </div>
-        <h3 ng-hide="yourTurn()">
-            <span class="label label-default">opponent's turn</span>
-        </h3>
-        <h3 ng-show="yourTurn()">
-            <span class="label label-warning">your turn</span>
-        </h3>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div>
+                    <img ng-repeat="figure in game.board.cuts|filter:{ color: 'white' }"
+                        ng-src="/static/images/figures/{{figure.color}}/{{figure.kind}}.png"
+                        class="cut-figure">
+                </div>
+                <hr>
+                <div>
+                    <img ng-repeat="figure in game.board.cuts|filter:{ color: 'black' }"
+                        ng-src="/static/images/figures/{{figure.color}}/{{figure.kind}}.png"
+                        class="cut-figure">
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -6,7 +6,7 @@ angular.module('darkChess')
     function helpersService() {
 
         this.isIn = function(array, item) {
-            return array.indexOf(item) > 0;
+            return array.indexOf(item) > -1;
         };
 
         this.remove = function(array, item) {
