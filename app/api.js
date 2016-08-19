@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('darkChess')
-    .service('apiService', apiService);
+    .service('apiService', ApiService);
 
-    apiService.$inject = [
+    ApiService.$inject = [
         '$http',
         '$q',
     ];
 
-    function apiService($http, $q) {
+    function ApiService($http, $q) {
 
         function HTTP(method, url, data, config) {
             return method(url, data, config)
@@ -117,4 +117,4 @@ angular.module('darkChess')
                 };
             },
         };
-    };
+    }

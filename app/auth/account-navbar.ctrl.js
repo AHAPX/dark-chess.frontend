@@ -32,7 +32,7 @@ angular.module('darkChess.auth')
                 $rootScope.user = { username: 'anonymous' };
                 scope.logged = false;
                 $rootScope.$broadcast('logged_out');
-            };
+            }
 
             scope.login = function() {
                 apiService.auth.login(scope.model.username, scope.model.password)
@@ -74,7 +74,7 @@ angular.module('darkChess.auth')
                 });
 
             init();
-        };
+        }
 
         return {
             link: linker,
@@ -82,4 +82,4 @@ angular.module('darkChess.auth')
             restrict: 'E',
             scope: false,
         };
-    };
+    }

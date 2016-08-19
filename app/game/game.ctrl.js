@@ -53,7 +53,7 @@ angular.module('darkChess.auth')
                 $.each([1, 2, 3, 4, 5, 6, 7, 8], function(index, y) {
                     $scope.$broadcast(x + y, { type: 'reset' });
                 });
-            })
+            });
         }
 
         $scope.yourTurn = function() {
@@ -112,7 +112,7 @@ angular.module('darkChess.auth')
             if (!socketService.alive) {
                 $timeout(update, 3000);
             }
-        };
+        }
 
         function checkConnection() {
             if (!socketService.alive) {
@@ -152,4 +152,4 @@ angular.module('darkChess.auth')
                     });
                 });
         }
-    };
+    }

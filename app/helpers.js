@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('darkChess')
-    .service('helpersService', helpersService);
+    .service('helpersService', HelpersService);
 
-    function helpersService() {
+    function HelpersService() {
 
         this.isIn = function(array, item) {
             return array.indexOf(item) > -1;

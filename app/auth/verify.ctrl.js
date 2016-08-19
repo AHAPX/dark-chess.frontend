@@ -25,4 +25,4 @@ angular.module('darkChess.auth')
             }, function() {
                 $scope.not_found = true;
             });
-    };
+    }

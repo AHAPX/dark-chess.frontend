@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('darkChess')
-    .service('socketService', socketService);
+    .service('socketService', SocketService);
 
-    socketService.$inject = [
+    SocketService.$inject = [
         '$rootScope',
         '$timeout',
     ];
 
-    function socketService($rootScope, $timeout) {
+    function SocketService($rootScope, $timeout) {
         var self = this,
             queue = [],
             tags = [];
@@ -26,10 +26,6 @@ angular.module('darkChess')
                 ping_timeout,
                 wait_pong = false;
 
-            function send(message) {
-                send(angular.toJson(message));
-            }
-
             function addTag(tag) {
                 if (tags.indexOf(tag) < 0) {
                     tags.push(tag);
@@ -46,7 +42,7 @@ angular.module('darkChess')
             }
 
             function checkPing() {
-                if (wait_pong && self.alive != false) {
+                if (wait_pong && self.alive !== false) {
                     self.alive = false;
                     $rootScope.$broadcast('socketAlive');
                 }
@@ -87,7 +83,7 @@ angular.module('darkChess')
                 }
                 if (msg.data == 'pong') {
                     wait_pong = false;
-                    if (self.alive != true) {
+                    if (self.alive !== true) {
                         self.alive = true;
                         $rootScope.$broadcast('socketAlive');
                     }
@@ -121,7 +117,7 @@ angular.module('darkChess')
             $rootScope.$on('socketRemoveTag', function(event, tag) {
                 removeTag(tag);
             });
-        };
+        }
 
         self.signals = {
             none: 0x0000,
@@ -135,5 +131,4 @@ angular.module('darkChess')
         };
 
         connect();
-    };
-
+    }

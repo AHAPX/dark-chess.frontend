@@ -36,4 +36,4 @@ angular.module('darkChess.auth')
                     $scope.error = error;
                 });
         };
-    };
+    }

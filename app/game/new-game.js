@@ -33,7 +33,7 @@ angular.module('darkChess.game')
 
             scope.setType = function(type) {
                 scope.model.type = type.name;
-                if (type.periods.length == 0) {
+                if (type.periods.length === 0) {
                     scope.model.period = null;
                 } else {
                     if (scope.selected_periods[type.name]) {
@@ -59,7 +59,7 @@ angular.module('darkChess.game')
             };
 
             loadTypes();
-        };
+        }
 
         return {
             link: linker,
@@ -67,4 +67,4 @@ angular.module('darkChess.game')
             restrict: 'E',
             scope: false,
         };
-    };
+    }

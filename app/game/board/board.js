@@ -1,20 +1,20 @@
 'use strict';
 
 angular.module('darkChess.game')
-    .service('boardService', boardService)
+    .service('boardService', BoardService)
     .filter('letter', function() {
         return function(input) {
             return 'abcdefgh'[input - 1];
         };
     });
 
-    boardService.$inject = [
+    BoardService.$inject = [
         '$q',
         '$rootScope',
         'gameService',
     ];
 
-    function boardService($q, $rootScope, gameService) {
+    function BoardService($q, $rootScope, gameService) {
         var self = this;
         var selected;
         var subscriber;
@@ -106,7 +106,8 @@ angular.module('darkChess.game')
             }
             if (cell) {
                 if (selected && selected.addr == addr) {
-                    return selected = null;
+                    selected = null;
+                    return;
                 }
                 if (cell.color != self.game.next_turn) {
                     return;

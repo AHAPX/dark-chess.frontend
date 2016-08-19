@@ -8,5 +8,4 @@ angular.module('darkChess')
         '$location',
     ];
 
-    function homeController($scope, $location) {
-    };
+    function homeController($scope, $location) {}

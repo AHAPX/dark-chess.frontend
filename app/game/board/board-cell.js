@@ -17,7 +17,7 @@ angular.module('darkChess.game')
                 scope.selected = false;
                 scope.movable = false;
                 scope.cell = boardService.getCell(scope.addr);
-                scope.hidden = scope.cell == null;
+                scope.hidden = scope.cell === null;
                 scope.colorClass = 'board-cell-' + scope.color;
                 if (scope.hidden) {
                     scope.colorClass += '-hidden';

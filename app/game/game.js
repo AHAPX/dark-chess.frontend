@@ -17,9 +17,9 @@ angular
         }
     ])
     .filter('readableTime', timeFilter)
-    .service('gameService', gameService);
+    .service('gameService', GameService);
 
-    gameService.$inject = [
+    GameService.$inject = [
         '$q',
         '$localStorage',
         '$rootScope',
@@ -28,7 +28,7 @@ angular
         'helpersService',
     ];
 
-    function gameService($q, $localStorage, $rootScope, apiService, socketService, hs) {
+    function GameService($q, $localStorage, $rootScope, apiService, socketService, hs) {
         var self = this;
 
         var storage = $localStorage.$default({
@@ -55,7 +55,8 @@ angular
             }
             return apiService.games.types()
                 .then(function(data) {
-                    return self.types = data.types;
+                    self.types = data.types;
+                    return data.types;
                 });
         };
 
@@ -290,7 +291,7 @@ angular
         };
 
         self.updateGames();
-    };
+    }
 
     function timeFilter() {
         return function(time) {
@@ -320,4 +321,4 @@ angular
             }
             return 'just now';
         };
-    };
+    }
