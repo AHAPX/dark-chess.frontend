@@ -16,6 +16,7 @@ angular
                 });
         }
     ])
+    .filter('readableTime', timeFilter)
     .service('gameService', gameService);
 
     gameService.$inject = [
@@ -289,4 +290,34 @@ angular
         };
 
         self.updateGames();
+    };
+
+    function timeFilter() {
+        return function(time) {
+            function numberEnding (number) {
+                return (number > 1) ? 's' : '';
+            }
+
+            var years = Math.floor(time / 31536000);
+            if (years) {
+                return years + ' year' + numberEnding(years);
+            }
+            var days = Math.floor((time %= 31536000) / 86400);
+            if (days) {
+                return days + ' day' + numberEnding(days);
+            }
+            var hours = Math.floor((time %= 86400) / 3600);
+            if (hours) {
+                return hours + ' hour' + numberEnding(hours);
+            }
+            var minutes = Math.floor((time %= 3600) / 60);
+            if (minutes) {
+                return minutes + ' minute' + numberEnding(minutes);
+            }
+            var seconds = time % 60;
+            if (seconds) {
+                return seconds + ' second' + numberEnding(seconds);
+            }
+            return 'just now';
+        };
     };

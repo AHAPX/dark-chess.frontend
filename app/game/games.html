@@ -22,11 +22,13 @@
                     {{ games.games[id].opponent }}
                     <span class="pull-right">
                         <span ng-show="userTurn(games.games[id])">
-                            <time-left ng-show="games.games[id].time_left" ng-model="games.games[id].time_left" />
+                            <span ng-show="games.games[id].time_left">
+                                {{ games.games[id].time_left|readableTime }}
+                            </span>
                             <span class="glyphicon glyphicon-pawn" aria-hidden="true"></span>
                         </span>
                         <span ng-show="games.games[id].enemy_time_left && !userTurn(games.games[id])">
-                            <time-left ng-model="games.games[id].enemy_time_left" />
+                            {{ games.games[id].enemy_time_left|readableTime }}
                         </span>
                     </span>
                 </a>

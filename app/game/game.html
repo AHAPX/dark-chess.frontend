@@ -20,8 +20,8 @@
                 </h2>
             </div>
             <div ng-if="!game.ended_at" class="game-label alert" ng-class="{
-                    'alert-default': !yourTurn(),
-                    'alert-success': yourTurn(),
+                    'alert-info': !yourTurn(),
+                    'alert-danger': yourTurn(),
                 }">
                 <h3 ng-hide="yourTurn()">
                     opponent's turn

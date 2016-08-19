@@ -16,11 +16,15 @@ angular.module('darkChess.game')
                 gameService.getTypes()
                     .then(function(types) {
                         scope.types = types;
+                        scope.model = {
+                            type: types[0].name,
+                            period: types[0].periods[0].name,
+                        };
                     });
             }
 
             scope.model = {
-                type: 'no limit',
+                type: null,
                 period: null,
             };
 

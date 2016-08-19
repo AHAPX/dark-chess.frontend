@@ -2,35 +2,7 @@
 
 angular.module('darkChess.game')
     .directive('timeLeft', timeDirective)
-    .filter('readableTime', function() {
-        return function(time) {
-            function numberEnding (number) {
-                return (number > 1) ? 's' : '';
-            }
-
-            var years = Math.floor(time / 31536000);
-            if (years) {
-                return years + ' year' + numberEnding(years);
-            }
-            var days = Math.floor((time %= 31536000) / 86400);
-            if (days) {
-                return days + ' day' + numberEnding(days);
-            }
-            var hours = Math.floor((time %= 86400) / 3600);
-            if (hours) {
-                return hours + ' hour' + numberEnding(hours);
-            }
-            var minutes = Math.floor((time %= 3600) / 60);
-            if (minutes) {
-                return minutes + ' minute' + numberEnding(minutes);
-            }
-            var seconds = time % 60;
-            if (seconds) {
-                return seconds + ' second' + numberEnding(seconds);
-            }
-            return 'just now';
-        };
-    });
+    .filter('timer', timerFilter);
 
     timeDirective.$inject = [
         '$timeout',
@@ -41,15 +13,16 @@ angular.module('darkChess.game')
         function linker(scope, elem, attrs) {
             scope.$watch('ngModel', function(value) {
                 scope.value = Math.round(value);
-                if (scope.tickable) {
-                    $timeout(tick, 1000);
-                }
             });
 
             function tick() {
-                scope.value--;
-                $timeout(tick, 1000);
+                if (scope.tickable) {
+                    scope.value--;
+                    $timeout(tick, 1000);
+                }
             }
+
+            scope.$watch('tickable', tick);
         }
 
         return {
@@ -60,5 +33,28 @@ angular.module('darkChess.game')
                 ngModel: '=',
                 tickable: '=',
             },
+        };
+    }
+
+    function timerFilter() {
+        function twoNulls(value) {
+            if (value.toString().length < 2) {
+                return '0' + value;
+            }
+            return value;
+        }
+
+        return function(time) {
+            var days = Math.floor((time %= 31536000) / 86400);
+            if (days) {
+                return days + ' day' + (days > 1) ? 's' : '';
+            }
+            var rest = time;
+            var hours = Math.floor((time % 86400) / 3600);
+            rest = rest - (hours || 0) * 3600;
+            var minutes = Math.floor((rest % 3600) / 60);
+            rest = rest - (minutes || 0) * 60;
+            var seconds = rest % 60;
+            return twoNulls(hours) + ':' + twoNulls(minutes) + ':' + twoNulls(seconds);
         };
     }

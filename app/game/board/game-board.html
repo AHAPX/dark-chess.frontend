@@ -1,10 +1,10 @@
 <div>
-    <h4 class="game-player">
+    <h3 class="game-player">
         <span>{{ game.opponent }}</span>
-        <time-left class="pull-right" ng-if="game.enemy_time_left"
+        <time-left class="pull-right label label-default" ng-if="game.enemy_time_left"
             ng-model="game.enemy_time_left" tickable="!yourTurn()"
-            ng-class="{'label label-warning': !yourTurn()}"/>
-    </h4>
+            ng-class="{'label-info': !yourTurn()}"/>
+    </h3>
     <table class="board">
         <tr>
             <td></td>
@@ -28,9 +28,9 @@
             <td></td>
         </tr>
     </table>
-    <h4 class="game-player">
+    <h3 class="game-player">
         <span>{{ user.username }}</span>
-        <time-left class="pull-right" ng-if="game.time_left" ng-model="game.time_left"
-            tickable="yourTurn()" ng-class="{'label label-warning': yourTurn()}"/>
-    </h4>
+        <time-left class="pull-right label label-default" ng-if="game.time_left" ng-model="game.time_left"
+            tickable="yourTurn()" ng-class="{'label-danger': yourTurn()}"/>
+    </h3>
 </div>
