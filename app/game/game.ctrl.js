@@ -16,9 +16,14 @@ angular.module('darkChess.auth')
     function gameController($scope, $location, $timeout, $routeParams, gameService,
         boardService, socketService) {
 
+        var game_timer;
+
         function loadGame(no_cache) {
             return boardService.getGame($scope.gameId, no_cache)
                 .then(function(game) {
+                    if (game_timer) {
+                        $timeout.cancel(game_timer);
+                    }
                     if ($scope.game && game && $scope.game.next_turn == game.next_turn) {
                         return game;
                     }
@@ -33,6 +38,9 @@ angular.module('darkChess.auth')
                         }
                     }
                     resetCells();
+                    if (game.time_left && game.time_left > 0) {
+                        game_timer = $timeout(function () { loadGame(true); }, game.time_left * 1000);
+                    }
                     $timeout(function() {}, 100);
                     return game;
                 }, function(error) {

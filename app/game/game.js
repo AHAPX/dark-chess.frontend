@@ -314,7 +314,7 @@ angular
             if (minutes) {
                 return minutes + ' minute' + numberEnding(minutes);
             }
-            var seconds = time % 60;
+            var seconds = Math.floor(time % 60);
             if (seconds) {
                 return seconds + ' second' + numberEnding(seconds);
             }
