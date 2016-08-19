@@ -11,10 +11,11 @@ angular.module('darkChess.auth')
         'gameService',
         'boardService',
         'socketService',
+        'Settings',
     ];
 
     function gameController($scope, $location, $timeout, $routeParams, gameService,
-        boardService, socketService) {
+        boardService, socketService, Settings) {
 
         var game_timer;
 
@@ -97,7 +98,7 @@ angular.module('darkChess.auth')
 
         $scope.getInvitedUrl = function() {
             if ($scope.game && $scope.game.invite) {
-                return 'https://api.dark-chess.com/#/game/invited/' + $scope.game.invite;
+                return Settings.base_url + '/#/game/invited/' + $scope.game.invite;
             }
         };
 

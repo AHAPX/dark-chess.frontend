@@ -6,19 +6,19 @@ angular
         '$routeProvider',
         function($routeProvider) {
             $routeProvider
-                .when('/register', {
+                .when('/auth/register', {
                     templateUrl: 'app/auth/register.html',
                     controller: 'RegisterCtrl',
                 })
-                .when('/verify/:token', {
+                .when('/auth/verify/:token', {
                     templateUrl: 'app/auth/verify.html',
                     controller: 'VerifyCtrl',
                 })
-                .when('/reset', {
+                .when('/auth/reset', {
                     templateUrl: 'app/auth/reset.html',
                     controller: 'ResetCtrl',
                 })
-                .when('/recover/:token', {
+                .when('/auth/recover/:token', {
                     templateUrl: 'app/auth/recover.html',
                     controller: 'RecoverCtrl',
                 });

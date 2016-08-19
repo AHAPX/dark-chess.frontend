@@ -7,10 +7,10 @@ angular.module('darkChess.auth')
         '$scope',
         '$location',
         '$routeParams',
-        'api',
+        'apiService',
     ];
 
-    function verifyController($scope, $location, $routeParams, api) {
+    function verifyController($scope, $location, $routeParams, apiService) {
 
         $scope.model = {
             password: '',
@@ -19,7 +19,7 @@ angular.module('darkChess.auth')
 
         $scope.not_found = false;
 
-        api.auth.verify($routeParams.token)
+        apiService.auth.verify($routeParams.token)
             .then(function(data) {
                 $location.path('home');
             }, function() {

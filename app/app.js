@@ -23,4 +23,8 @@ angular
                 });
             ngClipProvider.setPath('bower_components/zeroclipboard/dist/ZeroClipboard.swf');
         }
-    ]);
+    ])
+    .constant('Settings', {
+        base_url: 'https://dark-chess.com',
+        ws_address: 'wss://dark-chess.com/ws',
+    });

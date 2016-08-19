@@ -6,9 +6,10 @@ angular.module('darkChess')
     SocketService.$inject = [
         '$rootScope',
         '$timeout',
+        'Settings',
     ];
 
-    function SocketService($rootScope, $timeout) {
+    function SocketService($rootScope, $timeout, Settings) {
         var self = this,
             queue = [],
             tags = [];
@@ -22,7 +23,7 @@ angular.module('darkChess')
         self.alive = null;
 
         function connect() {
-            var ws = new WebSocket('wss://api.dark-chess.com/ws'),
+            var ws = new WebSocket(Settings.ws_address),
                 ping_timeout,
                 wait_pong = false;
 
