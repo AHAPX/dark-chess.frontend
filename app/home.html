@@ -1,4 +1,72 @@
 <div>
-    <h1>Welcome to DarkChess.com</h1>
-    <a href="#/game/0">Let's play</a>
+    <script>
+        CoinWidgetCom.go({
+            wallet_address: '3MLmbW9mF22Rjv7QmpUUwyQFJCYKxWGnFU',
+            currency: 'bitcoin',
+            counter: 'amount',
+            lbl_button: 'Donate',
+            lbl_count: 'donations',
+            lbl_amount: 'BTC',
+            lbl_address: 'Use address below to donate. Thanks!',
+            qrcode: true,
+            alignment: 'bl',
+            decimals: 4,
+            size: "small",
+            color: "light",
+            countdownFrom: "0",
+            element: "#coinwidget-bitcoin-3MLmbW9mF22Rjv7QmpUUwyQFJCYKxWGnFU",
+            onShow: function(){},
+            onHide: function(){}
+        });
+    </script>
+    <h1>
+        Welcome to Dark-Chess.com
+        <a href="#/game/0" class="btn btn-lg btn-primary pull-right">Play dark chess</a>
+    </h1>
+    <hr>
+    <div class="jumbotron">
+        <h2>Rules</h2>
+        <p>The goal of this chess variant is not to checkmate the king, but to capture it. A player is not told if their king is in check. Failing to move out of check, or moving into check, are both legal, and can obviously result in a capture and loss of the game.</p>
+        <p>Each player views a different version of the board, on which they can only see their own pieces, and the squares where these pieces can legally move. It is indicated to the player which squares are hidden, so a hidden square can never be confused with a visible empty square. As an example, it is always clear when an enemy piece is directly in front of a pawn, because that square will be hidden (as that is not a legal move for the pawn to make).</p>
+        <a href="https://en.wikipedia.org/wiki/Dark_chess" target="_blank" class="btn btn-info">Read more</a>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Slow game</h2>
+            <p>Each move limitation - your have 1-30 days for each move, but no time limitation for game</p>
+            <a href="#/game/0" class="btn btn-primary">Play</a>
+        </div>
+        <div class="col-md-4">
+            <h2>Fast game</h2>
+            <p>Full game limitation - you have to finish game before your time is over</p>
+            <a href="#/game/0" class="btn btn-primary">Play</a>
+        </div>
+        <div class="col-md-4">
+            <h2>Private game</h2>
+            <p>You can create non public game of any type and just send a url to your friend to invite</p>
+            <a href="#/game/0" class="btn btn-primary">Play</a>
+        </div>
+    </div>
+    <hr>
+    <div class="jumbotron">
+        <h2>Open source</h2>
+        <p>All parts of this project are free software - you can read, copy source code and make it better if you would like.</p>
+        <a href="https://github.com/AHAPX/dark-chess" target="_blank" class="btn btn-primary btn-lg">
+            Server code
+        </a>
+        <a href="https://github.com/AHAPX/dark-chess.frontend" target="_blank" class="btn btn-default btn-lg">
+            Frontend code
+        </a>
+        <a href="https://github.com/AHAPX/dark-chess/wiki/api" target="_blank" class="btn btn-info btn-lg">
+            API description
+        </a>
+    </div>
+    <div class="jumbotron">
+        <h2>Future</h2>
+        <p>There is a lot of features which will be added for Dark-Chess project, but this project is non-commercial free software without budget, so speed of development is not too fast</p>
+        <p>If you like Dark-Chess project and you'd it gets better you can donate any amount of btc
+            <span id="coinwidget-bitcoin-3MLmbW9mF22Rjv7QmpUUwyQFJCYKxWGnFU"></span>
+        </p>
+    </div>
 </div>

@@ -1,3 +1,6 @@
 # frontend for dark-chess
 
-in progress
+## Description
+Frontend for [dark-chess](https://github.com/AHAPX/dark-chess)
+
+in progress...

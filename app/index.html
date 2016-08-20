@@ -25,14 +25,10 @@
     <script src="bower_components/zeroclipboard/dist/ZeroClipboard.min.js"></script>
     <script src="bower_components/ng-clip/dest/ng-clip.min.js"></script>
 
-    <script type='text/javascript'>
-        $(document).ready(function() {
-            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
-        });
-    </script>
+    <script src="https://blockr.io/js_external/coinwidget/coin.js"></script>
 </head>
 <body>
-    <div class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -41,21 +37,31 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">DarkChess</a>
+                <a class="navbar-brand" href="/">
+                    <span class="glyphicon glyphicon-tower"></span>
+                    Dark-Chess
+                </a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <account-navbar />
             </div>
         </div>
-    </div>
+    </nav>
 
     <div class="container">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
+        <br><br><br>
         <div ng-view></div>
     </div>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="text-muted">2016 Dark-Chess.com, Website powered by <a href="https://github.com/AHAPX/dark-chess.frontend" target="_blank">dark-chess.frontend</a></p>
+        </div>
+    </footer>
 
     <!-- In production use:
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
