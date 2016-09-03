@@ -129,6 +129,7 @@ angular.module('darkChess')
             lose: 0x0012,
             draw: 0x0013,
             draw_request: 0x0021,
+            chat_message: 0x0031,
         };
 
         connect();

@@ -117,4 +117,17 @@ angular.module('darkChess')
                 };
             },
         };
+
+        this.chat = {
+            messages: function(offset) {
+                var url = '/v1/chat/messages';
+                if (offset) {
+                    url += '?offset=' + offset;
+                }
+                return GET(url);
+            },
+            add: function(text) {
+                return POST('/v1/chat/messages', { text: text });
+            },
+        };
     }

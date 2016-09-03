@@ -1,53 +1,56 @@
 <div class="row">
     <div class="col-md-3">
+        <chat />
         <games />
     </div>
-    <div class="col-md-5" ng-if="gameId && gameId != '0'">
-        <div ng-if="game.started_at">
-            <div ng-if="game.ended_at" class="game-label alert" ng-class="{
-                    'alert-success': end_reason == 'won',
-                    'alert-danger': end_reason == 'lost',
-                    'alert-warning': end_reason == 'draw',
-                }">
-                <h2 ng-if="end_reason == 'won'">
-                    game is over - you won
-                </h2>
-                <h2 ng-if="end_reason == 'lost'">
-                    game is over - you lost
-                </h2>
-                <h2 ng-if="end_reason == 'draw'">
-                    game is over - draw
-                </h2>
+    <div class="col-md-5">
+        <div ng-if="gameId && gameId != '0'">
+            <div ng-if="game.started_at">
+                <div ng-if="game.ended_at" class="game-label alert" ng-class="{
+                        'alert-success': end_reason == 'won',
+                        'alert-danger': end_reason == 'lost',
+                        'alert-warning': end_reason == 'draw',
+                    }">
+                    <h2 ng-if="end_reason == 'won'">
+                        game is over - you won
+                    </h2>
+                    <h2 ng-if="end_reason == 'lost'">
+                        game is over - you lost
+                    </h2>
+                    <h2 ng-if="end_reason == 'draw'">
+                        game is over - draw
+                    </h2>
+                </div>
+                <div ng-if="!game.ended_at" class="game-label alert" ng-class="{
+                        'alert-info': !yourTurn(),
+                        'alert-danger': yourTurn(),
+                    }">
+                    <h3 ng-hide="yourTurn()">
+                        opponent's turn
+                    </h3>
+                    <h3 ng-show="yourTurn()">
+                        your turn
+                    </h3>
+                </div>
+                <game-board game="game" game-id="gameId" />
             </div>
-            <div ng-if="!game.ended_at" class="game-label alert" ng-class="{
-                    'alert-info': !yourTurn(),
-                    'alert-danger': yourTurn(),
-                }">
-                <h3 ng-hide="yourTurn()">
-                    opponent's turn
-                </h3>
-                <h3 ng-show="yourTurn()">
-                    your turn
-                </h3>
-            </div>
-            <game-board game="game" game-id="gameId" />
-        </div>
-        <div ng-if="!game.started_at">
-            <div class="game-label alert alert-info">
-                <h2 ng-hide="game.invite">waiting an opponent</h2>
-                <div ng-show="game.invite">
-                    <h5>Send this url to your friend to invite:<h5>
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-value="getInvitedUrl()" readonly>
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" clip-copy="getInvitedUrl()">
-                                <span class="glyphicon glyphicon-copy"><span>
-                            </button>
-                        </span>
+            <div ng-if="!game.started_at">
+                <div class="game-label alert alert-info">
+                    <h2 ng-hide="game.invite">waiting an opponent</h2>
+                    <div ng-show="game.invite">
+                        <h5>Send this url to your friend to invite:<h5>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-value="getInvitedUrl()" readonly>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" clip-copy="getInvitedUrl()">
+                                    <span class="glyphicon glyphicon-copy"><span>
+                                </button>
+                            </span>
+                        </div>
                     </div>
                 </div>
+                <game-board game="null" game-id="gameId" />
             </div>
-            <game-board game="null" game-id="gameId" />
         </div>
     </div>
     <div class="col-md-2">

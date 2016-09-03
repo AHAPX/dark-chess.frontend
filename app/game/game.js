@@ -215,6 +215,10 @@ angular
         };
 
         $rootScope.$on('onSocket', function(_, event) {
+            if (event.signal == socketService.signals.chat_message) {
+                $rootScope.$broadcast('chat_message', event.message);
+                return;
+            };
             if (!event.tags || event.tags.length < 1) {
                 return;
             }

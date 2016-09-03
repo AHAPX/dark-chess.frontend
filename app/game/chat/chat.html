@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        online chat
+        <button class="btn btn-xs btn-default pull-right" title="refresh" ng-click="loadMessages(true)">
+            <span class="glyphicon glyphicon-refresh"></span>
+        </button>
+    </div>
+    <div class="panel-body">
+        <div class="chat-messages" id="messages">
+            <button class="btn btn-block btn-xs btn-default" ng-click=loadMessages()
+                ng-disabled="load_blocked">
+                <span class="glyphicon glyphicon-chevron-up"></span>
+            </button>
+            <div ng-repeat="message in messages">
+                <span class="label" ng-class="{
+                    'label-default': message.user == 'anonymous',
+                    'label-primary': message.user == 'anarchy',
+                    'label-info': ['anonymous', 'anarchy'].indexOf(message.user) < 0,
+                }" title="{{message.created_ago|readableTime}} ago">{{ message.user }}:</span>
+                <span ng-hide="message.link">
+                    {{ message.text }}
+                </span>
+                <a ng-show="message.link" href="{{message.link}}" target="_blank">
+                    {{ message.text }}
+                </a>
+            </div>
+            <div ng-show="last_dt">
+                <span class="label label-warning label-block">
+                    {{ last_dt|readableTime }} ago
+                </span>
+            </div>
+            <br>
+        </div>
+        <form name="form" ng-submit="send()">
+            <div class="input-group">
+                <input class="form-control" id="text" ng-model="model.text" ng-disabled="blocked">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary"
+                        ng-disabled="blocked || model.text.length < 1">
+                        send
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
