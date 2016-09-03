@@ -42,8 +42,8 @@ angular.module('darkChess.game')
                     if (scope.messages[i].created_at < created_at) {
                         break;
                     }
-                    if (scope.messages[i].created_at.getTime() === created_at.getTime()
-                            && scope.messages[i].text === message.text) {
+                    if (scope.messages[i].created_at.getTime() === created_at.getTime() &&
+                            scope.messages[i].text === message.text) {
                         return true;
                     }
                 }

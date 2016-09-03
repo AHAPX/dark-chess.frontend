@@ -26,6 +26,7 @@
 
     // other
     "BootstrapDialog": false,
-    "WebSocket": false
+    "WebSocket": false,
+    "console": false
   }
 }
