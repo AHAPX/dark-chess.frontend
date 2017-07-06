@@ -119,3 +119,8 @@ body {
     display: block;
     margin-top: 3px;
 }
+
+.social-icon {
+    width: 20px;
+    height: 20px;
+}
