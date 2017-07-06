@@ -39,7 +39,7 @@ angular.module('darkChess.game')
                     if (scope.selected_periods[type.name]) {
                         scope.setPeriod(scope.selected_periods[type.name]);
                     } else {
-                        scope.setPeriod(type.periods[0]);
+                        scope.setPeriod(type.periods[1]);
                     }
                 }
             };

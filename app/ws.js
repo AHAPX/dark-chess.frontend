@@ -45,7 +45,7 @@ angular.module('darkChess')
             function checkPing() {
                 if (wait_pong && self.alive !== false) {
                     self.alive = false;
-                    $rootScope.$broadcast('socketAlive');
+                    $rootScope.$broadcast('socketDead');
                 }
             }
 
@@ -130,6 +130,7 @@ angular.module('darkChess')
             draw: 0x0013,
             draw_request: 0x0021,
             chat_message: 0x0031,
+            new_game: 0x0041,
         };
 
         connect();

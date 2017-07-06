@@ -84,6 +84,12 @@ angular.module('darkChess')
             new: function(type, limit) {
                 return POST('/v1/game/new', { type: type, limit: limit });
             },
+            waited: function() {
+                return GET('/v1/game/new');
+            },
+            accept: function(game_id) {
+                return POST('/v1/game/new/' + game_id, {});
+            },
             invite: function(type, limit) {
                 return POST('/v1/game/invite', { type: type, limit: limit });
             },

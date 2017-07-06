@@ -17,6 +17,7 @@ angular
         }
     ])
     .filter('readableTime', timeFilter)
+    .filter('timePassed', timePassed)
     .service('gameService', GameService);
 
     GameService.$inject = [
@@ -72,6 +73,14 @@ angular
                     $rootScope.$broadcast('new_game', data.game);
                     addTag(data.game);
                     return data;
+                });
+        };
+
+        self.accept = function(game_id) {
+            return apiService.games.accept(game_id)
+                .then(function(data) {
+                    storage.actives.push(data.game);
+                    return data.game;
                 });
         };
 
@@ -324,5 +333,11 @@ angular
                 return seconds + ' second' + numberEnding(seconds);
             }
             return 'just now';
+        };
+    }
+
+    function timePassed() {
+        return function(dt) {
+            return timeFilter()((new Date() - dt) / 1000);
         };
     }

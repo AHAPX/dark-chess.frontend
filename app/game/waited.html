@@ -1,0 +1,21 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        games pool
+        <button class="btn btn-xs btn-default pull-right" title="refresh" ng-click="loadGames(true)">
+            <span class="glyphicon glyphicon-refresh"></span>
+        </button>
+    </div>
+        <ul class="nav nav-pills nav-stacked">
+            <li ng-repeat="game in waited_games" title="{{ game.date_created|timePassed }} ago">
+                <a href ng-click="askAccept(game)">
+                    {{ game.type }}
+                    <span ng-if="game.user">
+                        ({{ game.user }})
+                    </span>
+                    <span class="pull-right">
+                        {{ game.limit|readableTime }}
+                    </span>
+                </a>
+            </li>
+        </ul>
+</div>
