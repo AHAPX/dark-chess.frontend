@@ -6,12 +6,13 @@ angular.module('darkChess')
     ApiService.$inject = [
         '$http',
         '$q',
+        'Settings',
     ];
 
-    function ApiService($http, $q) {
+    function ApiService($http, $q, Settings) {
 
         function HTTP(method, url, data, config) {
-            return method(url, data, config)
+            return method(Settings.base_url + url, data, config)
                 .then(function(resp) {
                     if (resp.data) {
                         if (resp.data.rc) {
