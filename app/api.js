@@ -14,13 +14,9 @@ angular.module('darkChess')
         function HTTP(method, url, data, config) {
             return method(Settings.base_url + url, data, config)
                 .then(function(resp) {
-                    if (resp.data) {
-                        if (resp.data.rc) {
-                            return resp.data;
-                        } else {
-                            return $q.reject(resp.data.error);
-                        }
-                    }
+                    return resp.data;
+                }, function(resp) {
+                    return $q.reject(resp.data);
                 });
         }
 
@@ -42,84 +38,84 @@ angular.module('darkChess')
 
         this.auth = {
             register: function(username, email, password) {
-                return POST('/v1/auth/register', {
+                return POST('/v2/auth/register/', {
                     username: username,
                     email: email,
                     password: password,
                 });
             },
             get_verification: function() {
-                return GET('/v1/auth/verification');
+                return GET('/v2/auth/verification/');
             },
             verify: function(token) {
-                return GET('/v1/auth/verification/' + token);
+                return GET('/v2/auth/verification/' + token + '/');
             },
             reset: function(email) {
-                return POST('/v1/auth/reset', { email: email });
+                return POST('/v2/auth/reset/', { email: email });
             },
             recoverable: function(token) {
-                return GET('/v1/auth/recover/' + token);
+                return GET('/v2/auth/recover/' + token + '/');
             },
             recover: function(token, password) {
-                return POST('/v1/auth/recover/' + token, { password: password });
+                return POST('/v2/auth/recover/' + token + '/', { password: password });
             },
             login: function(username, password) {
-                return POST('/v1/auth/login', {
+                return POST('/v2/auth/login/', {
                     username: username,
                     password: password,
                 });
             },
             logout: function() {
-                return GET('/v1/auth/logout');
+                return GET('/v2/auth/logout/');
             },
             authorized: function() {
-                return GET('/v1/auth/authorized')
+                return GET('/v2/auth/login/')
                     .then(null, function(error) { return false; });
             },
         };
 
         this.games = {
             types: function() {
-                return GET('/v1/game/types');
+                return GET('/v2/game/types/');
             },
             new: function(type, limit) {
-                return POST('/v1/game/new', { type: type, limit: limit });
+                return POST('/v2/game/new/', { type: type, limit: limit });
             },
             waited: function() {
-                return GET('/v1/game/new');
+                return GET('/v2/game/new/');
             },
             accept: function(game_id) {
-                return POST('/v1/game/new/' + game_id, {});
+                return POST('/v2/game/new/' + game_id + '/', {});
             },
             invite: function(type, limit) {
-                return POST('/v1/game/invite', { type: type, limit: limit });
+                return POST('/v2/game/invite/', { type: type, limit: limit });
             },
             invited: function(token) {
-                return GET('/v1/game/invite/' + token);
+                return GET('/v2/game/invite/' + token + '/');
             },
             games: function() {
-                return GET('/v1/game/games');
+                return GET('/v2/game/games/');
             },
             game: function(token) {
-                var url = '/v1/game/' + token;
+                var url = '/v2/game/' + token;
                 return {
                     info: function() {
-                        return GET(url + '/info');
+                        return GET(url + '/info/');
                     },
                     moves: function() {
-                        return GET(url + '/moves');
+                        return GET(url + '/moves/');
                     },
                     move: function(move) {
-                        return POST(url + '/move', { move: move });
+                        return POST(url + '/moves/', { move: move });
                     },
                     draw: function() {
-                        return GET(url + '/draw/accept');
+                        return POST(url + '/draw/');
                     },
                     drawRefuse: function() {
-                        return GET(url + '/draw/refuse');
+                        return DELETE(url + '/draw/');
                     },
                     resign: function() {
-                        return GET(url + '/resign');
+                        return POST(url + '/resign/');
                     },
                 };
             },
@@ -127,14 +123,14 @@ angular.module('darkChess')
 
         this.chat = {
             messages: function(offset) {
-                var url = '/v1/chat/messages';
+                var url = '/v2/chat/messages/';
                 if (offset) {
                     url += '?offset=' + offset;
                 }
                 return GET(url);
             },
             add: function(text) {
-                return POST('/v1/chat/messages', { text: text });
+                return POST('/v2/chat/messages/', { text: text });
             },
         };
     }
