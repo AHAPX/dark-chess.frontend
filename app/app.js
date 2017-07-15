@@ -25,6 +25,6 @@ angular
         }
     ])
     .constant('Settings', {
-        base_url: 'https://dev.dark-chess.com',
-        ws_address: 'wss://dev.dark-chess.com/ws',
+        base_url: 'https://dark-chess.com',
+        ws_address: 'wss://dark-chess.com/ws',
     });
